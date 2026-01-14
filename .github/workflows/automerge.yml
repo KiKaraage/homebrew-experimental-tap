@@ -1,0 +1,48 @@
+name: Automerge
+
+on:
+  workflow_run:
+    workflows: ["Homebrew Bump"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  dispatch-tests:
+    runs-on: ubuntu-latest
+    if: >
+      ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Dispatch CI for Bump PRs
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            
+            // Find open PRs by bump users
+            // You can adjust the query as per your needs, e.g., filter by labels if added
+            const { data: pulls } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              per_page: 50
+            });
+
+            for (const pr of pulls) {
+              const isBumpBot = ['lambdaclan', 'app/github-actions'].includes(pr.user.login);
+              const isBumpBranch = pr.head.ref.startsWith('bump-');
+
+              if ((isBumpBot || isBumpBranch) && !pr.draft) {
+                console.log(`Dispatching Bump CI for PR #${pr.number}`);
+                
+                await github.rest.actions.createWorkflowDispatch({
+                  owner,
+                  repo,
+                  workflow_id: 'bump-ci.yml',
+                  ref: 'main', 
+                  inputs: {
+                    pr_number: pr.number.toString()
+                  }
+                });
+              }
+            }
