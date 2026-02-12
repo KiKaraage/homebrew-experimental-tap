@@ -5,7 +5,6 @@ cask "craft-agents-linux" do
   sha256 x86_64_linux: "e7bc0b62eafe4701aa1924933ddefca03f5ddbf2147d3c2414397079272d21fd"
 
   url "https://github.com/lukilabs/craft-agents-oss/releases/download/v#{version}/Craft-Agents-#{version}-linux-x64.AppImage"
-  verified "https://github.com/lukilabs/craft-agents-oss"
   name "Craft Agents"
   desc "Work with most powerful agents in the world, with the UX they deserve"
   homepage "https://agents.craft.do/"
