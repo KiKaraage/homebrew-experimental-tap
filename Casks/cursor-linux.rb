@@ -2,9 +2,9 @@ cask "cursor-linux" do
   arch arm: "arm64", intel: "x64"
   file_arch = on_arch_conditional arm: "aarch64", intel: "x86_64"
 
-  version "2.6.22,c6285feaba0ad62603f7c22e72f0a170dc8415a5"
-  sha256 arm64_linux:  "90c5e6803cdaf409dd54828450561a3f1397e42ef07cd63a51658aa9d5f71251",
-         x86_64_linux: "ae63d7069207229f3bc85d0f0c986a220bed5ce5584f42571d3eba6329f08208"
+  version "3.2.10,87903b25fe9074e35b9ba372ed5bf14de5835962"
+  sha256 arm64_linux:  "135101c3bf1b7d2780c534d4c6dad5f3bc16903b8b0df926278b9afe3772be44",
+         x86_64_linux: "8fda9a816b0d284aa18550e73f0f9b4e4edc0ddba641f5549a4a265309d38e71"
 
   url "https://downloads.cursor.com/production/#{version.csv.second}/linux/#{arch}/Cursor-#{version.csv.first}-#{file_arch}.AppImage",
       verified: "downloads.cursor.com/"
